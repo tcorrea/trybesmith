@@ -13,8 +13,12 @@ export default class ProductService {
     const products: Product[] = await this.model.index();
     return products;
   }
+
   // public async show(id: number): Promise<Product> { };
-  // public async store(product: Product) { };
+  public async store(product: Product): Promise<Product> {
+    const productStored: Product = await this.model.store(product);
+    return productStored;
+  }
   // public async update(id: number) { };
   // public async destroy(id: number) { };
 }
