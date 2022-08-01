@@ -3,7 +3,7 @@ import Model from '../models/user';
 import User from '../interfaces/user';
 import createToken from './auth';
 
-export default class ProductService {
+export default class UserService {
   public model: Model;
 
   constructor() {

@@ -1,10 +1,10 @@
 import { Router } from 'express';
-// import UserController from '../controllers/user';
+import OrderController from '../controllers/order';
 
-// const controller = new UserController();
+const controller = new OrderController();
 
 const router = Router();
 
-router.post('/', () => { });
+router.get('/', controller.index);
 
 export default router;
