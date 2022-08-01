@@ -1,10 +1,18 @@
-import jwt from 'jsonwebtoken';
+import connection from '../models/connection';
+import Model from '../models/user';
+import createToken from './jwt';
 
-require('dotenv/config');
+export default class UserService {
+  public model: Model;
 
-const createToken = (payload: object) => {
-  const token = jwt.sign(payload, process.env.JWT_SECRET!);
-  return token;
-};
+  constructor() {
+    this.model = new Model(connection);
+  }
 
-export default createToken;
+  public async login(
+    { username, password }: { username: string, password: string },
+  ): Promise<string> {
+    const userFound: object = await this.model.login(username, password);
+    return createToken(userFound);
+  }
+}
