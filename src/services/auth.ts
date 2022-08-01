@@ -12,7 +12,14 @@ export default class UserService {
   public async login(
     { username, password }: { username: string, password: string },
   ): Promise<string> {
-    const userFound: object = await this.model.login(username, password);
+    const userFound: { id: number, username: string } = await this.model.login(username, password);
+
+    if (!userFound) {
+      const e = new Error('Username or password invalid');
+      e.name = 'UNAUTHORIZED';
+      throw e;
+    }
+
     return createToken(userFound);
   }
 }

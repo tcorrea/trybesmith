@@ -1,6 +1,11 @@
 import { Pool, ResultSetHeader } from 'mysql2/promise';
 import User from '../interfaces/user';
 
+interface LoginReturn {
+  id: number,
+  username: string,
+}
+
 export default class UserModel {
   public connection: Pool;
 
@@ -21,12 +26,13 @@ export default class UserModel {
     return { id: insertId, ...user };
   }
 
-  public async login(username: string, password: string): Promise<object> {
-    const query = 'SELECT id, username FROM Trybesmith.User WHERE username = ? and password = ?';
+  public async login(username: string, password: string): Promise<LoginReturn> {
+    const query = 'SELECT id, username FROM Trybesmith.Users WHERE username = ? and password = ?';
 
-    const [rows] = await this.connection.execute<ResultSetHeader>(query, [username, password]);
-    console.log(rows);
+    const [rows] = await this.connection.execute(query, [username, password]);
 
-    return rows;
+    const [plainResult]: LoginReturn[] = Object.values(JSON.parse(JSON.stringify(rows)));
+
+    return plainResult;
   }
 }
